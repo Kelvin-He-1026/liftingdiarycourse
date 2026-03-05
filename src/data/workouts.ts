@@ -3,9 +3,17 @@ import { workouts } from "@/db/schema"
 import { eq, gte, lt, and } from "drizzle-orm"
 
 export async function getWorkoutsForDate(userId: string, date: Date) {
-  // TODO(human): implement this function
-  // Filter workouts where:
-  //   1. userId matches
-  //   2. startedAt falls within the given calendar day (midnight to midnight)
-  // Return the query result.
+  const dayStart = new Date(date)
+    dayStart.setHours(0, 0, 0, 0)
+
+    const dayEnd = new Date(date)
+    dayEnd.setHours(24, 0, 0, 0)
+
+    return db.select().from(workouts).where(
+      and(
+        eq(workouts.userId, userId),
+        gte(workouts.startedAt, dayStart),
+        lt(workouts.startedAt, dayEnd)
+      )
+    )
 }
