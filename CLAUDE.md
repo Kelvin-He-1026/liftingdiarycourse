@@ -11,6 +11,8 @@ The `/docs` directory contains coding standards and conventions that MUST be fol
 Current docs:
 - `docs/ui.md` — UI component rules (shadcn/ui only) and date formatting (date-fns)
 - `docs/data-fetching.md` — Data fetching rules (Server Components only), `/data` directory helpers, Drizzle ORM, and user data isolation
+- `docs/auth.md` — Authentication standards (Clerk), getting `userId`, route protection via middleware, and Clerk UI components
+- `docs/data-mutations.md` — Data mutation rules (Server Actions + `/data` helpers), Zod validation, typed params, and user data isolation
 
 ## Commands
 
