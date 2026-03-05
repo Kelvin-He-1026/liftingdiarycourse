@@ -1,26 +1,9 @@
-"use client"
-
-import { useState } from "react"
+import { auth } from "@clerk/nextjs/server"
 import { format } from "date-fns"
-import { Calendar } from "@/components/ui/calendar"
+import { getWorkoutsForDate } from "@/data/workouts"
+import { DashboardCalendar } from "./DashboardCalendar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-
-// Placeholder workout type — replace with real type once data layer is wired up
-type Workout = {
-  id: string
-  name: string
-  sets: number
-  reps: number
-  weightKg: number
-}
-
-// Placeholder data — replace with real data fetching
-const PLACEHOLDER_WORKOUTS: Workout[] = [
-  { id: "1", name: "Bench Press", sets: 4, reps: 8, weightKg: 80 },
-  { id: "2", name: "Squat", sets: 5, reps: 5, weightKg: 100 },
-  { id: "3", name: "Deadlift", sets: 3, reps: 5, weightKg: 120 },
-]
 
 function formatDate(date: Date): string {
   const day = date.getDate()
@@ -38,8 +21,16 @@ function getOrdinal(day: number): string {
   }
 }
 
-export default function DashboardPage() {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date())
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ date?: string }>
+}) {
+  const { userId } = await auth()
+  const { date: dateStr } = await searchParams
+  const selectedDate = dateStr ? new Date(dateStr) : new Date()
+
+  const workoutList = await getWorkoutsForDate(userId!, selectedDate)
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -49,18 +40,8 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6 items-start">
 
-          {/* Date Picker */}
-          <Card>
-            <CardContent className="p-3">
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={(date) => date && setSelectedDate(date)}
-              />
-            </CardContent>
-          </Card>
+          <DashboardCalendar initialDate={selectedDate} />
 
-          {/* Workout List */}
           <Card>
             <CardHeader>
               <CardTitle className="text-base font-semibold">
@@ -68,26 +49,21 @@ export default function DashboardPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {PLACEHOLDER_WORKOUTS.length === 0 ? (
+              {workoutList.length === 0 ? (
                 <p className="text-sm text-muted-foreground">
                   No workouts logged for this date.
                 </p>
               ) : (
                 <ul className="space-y-3">
-                  {PLACEHOLDER_WORKOUTS.map((workout) => (
+                  {workoutList.map((workout) => (
                     <li
                       key={workout.id}
                       className="flex items-center justify-between rounded-lg border px-4 py-3"
                     >
                       <span className="font-medium text-sm">{workout.name}</span>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="secondary">
-                          {workout.sets} × {workout.reps}
-                        </Badge>
-                        <Badge variant="outline">
-                          {workout.weightKg} kg
-                        </Badge>
-                      </div>
+                      <Badge variant="secondary">
+                        {format(workout.startedAt, "h:mm a")}
+                      </Badge>
                     </li>
                   ))}
                 </ul>
