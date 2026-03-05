@@ -2,6 +2,20 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## IMPORTANT: Docs-First Rule
+
+**Before generating any code, always read the relevant file(s) in the `/docs` directory first.**
+
+The `/docs` directory contains coding standards and conventions that MUST be followed. Check it for guidance on UI components, date formatting, data fetching, and any other topic covered there. Standards in `/docs` override general defaults.
+
+Current docs:
+- `docs/ui.md` — UI component rules (shadcn/ui only) and date formatting (date-fns)
+- `docs/data-fetching.md` — Data fetching rules (Server Components only), `/data` directory helpers, Drizzle ORM, and user data isolation
+- `docs/auth.md` — Authentication standards (Clerk), getting `userId`, route protection via middleware, and Clerk UI components
+- `docs/data-mutations.md` — Data mutation rules (Server Actions + `/data` helpers), Zod validation, typed params, and user data isolation
+- `docs/server-components.md` — Server Component standards, async params/searchParams (Next.js 15), Server/Client boundary rules
+- `docs/routing.md` — Route structure (all app routes under `/dashboard`), middleware-based protection via Clerk, public vs protected routes
+
 ## Commands
 
 ```bash
