@@ -2,6 +2,15 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## IMPORTANT: Docs-First Rule
+
+**Before generating any code, always read the relevant file(s) in the `/docs` directory first.**
+
+The `/docs` directory contains coding standards and conventions that MUST be followed. Check it for guidance on UI components, date formatting, data fetching, and any other topic covered there. Standards in `/docs` override general defaults.
+
+Current docs:
+- `docs/ui.md` — UI component rules (shadcn/ui only) and date formatting (date-fns)
+
 ## Commands
 
 ```bash
