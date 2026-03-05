@@ -14,6 +14,7 @@ Current docs:
 - `docs/auth.md` — Authentication standards (Clerk), getting `userId`, route protection via middleware, and Clerk UI components
 - `docs/data-mutations.md` — Data mutation rules (Server Actions + `/data` helpers), Zod validation, typed params, and user data isolation
 - `docs/server-components.md` — Server Component standards, async params/searchParams (Next.js 15), Server/Client boundary rules
+- `docs/routing.md` — Route structure (all app routes under `/dashboard`), middleware-based protection via Clerk, public vs protected routes
 
 ## Commands
 
